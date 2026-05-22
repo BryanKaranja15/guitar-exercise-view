@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GuitarExerciseView.Camera
+namespace GuitarExerciseView.CameraSystem
 {
     [ExecuteInEditMode] // ← camera updates live in Scene view without pressing Play
     /// <summary>

@@ -60,7 +60,16 @@
 
 ---
 
-## To Research Next
+## Unity Compilation Lessons Learned
+
+| Issue | Root Cause | Fix |
+|---|---|---|
+| `com.unity.modules.ios` error on open | Module only available when iOS Build Support installed + iOS build target active | Removed from manifest.json — Unity re-adds it automatically when switching to iOS target |
+| `Camera` ambiguous reference in NoteVisual.cs | `namespace GuitarExerciseView.Camera` shadows `UnityEngine.Camera` | Renamed namespace to `GuitarExerciseView.CameraSystem` in CameraRig.cs (root fix). Also qualified `UnityEngine.Camera` in NoteVisual.cs (belt + suspenders) |
+| Pink/magenta background | Broken shader fallback + rotation `(90,0,0)` | Fixed `CreateBackgroundMaterial()` with proper URP shader lookup, rotation set to `(0,0,0)` |
+| Fretboard invisible in Scene view | No `[ExecuteInEditMode]` | Added to `FretboardMesh.cs` and `CameraRig.cs` |
+
+
 
 - [ ] Unity "as a library" iOS integration — exact Xcode setup steps
 - [ ] Best Unity shader approach for realistic guitar strings (LineRenderer vs custom mesh)

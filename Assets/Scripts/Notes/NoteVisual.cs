@@ -440,8 +440,8 @@ namespace GuitarExerciseView.Notes
 
             // Assign main camera for UI events (safe if Camera.main is null at Awake;
             // NoteSpawner can call AssignCamera() once the camera is ready).
-            if (Camera.main != null)
-                _canvas.worldCamera = Camera.main;
+            if (UnityEngine.Camera.main != null)
+                _canvas.worldCamera = UnityEngine.Camera.main;
 
             // Lie flat on the fretboard: rotate the canvas so its local XY plane
             // aligns with the world XZ plane.  After this rotation:
@@ -469,7 +469,7 @@ namespace GuitarExerciseView.Notes
         }
 
         /// <summary>Assign the world camera after scene load if Camera.main was null at Awake.</summary>
-        public void AssignCamera(Camera cam) => _canvas.worldCamera = cam;
+        public void AssignCamera(UnityEngine.Camera cam) => _canvas.worldCamera = cam;
 
         /// <summary>The scale factor to convert world units to canvas pixels (always 100).</summary>
         public const float PixelsPerUnit = 100f;

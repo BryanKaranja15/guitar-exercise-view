@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using GuitarExerciseView.Fretboard;
-using GuitarExerciseView.Camera;
+using GuitarExerciseView.CameraSystem;
 
 namespace GuitarExerciseView.Editor
 {
