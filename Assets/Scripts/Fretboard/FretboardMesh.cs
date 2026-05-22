@@ -14,6 +14,8 @@ namespace GuitarExerciseView.Fretboard
 
         [Header("Visual Settings")]
         public bool showGizmos = true;
+        // Option C: fret lines removed — string lanes + note pills carry all gameplay info. Held notes and bends travel full lane length without fret snapping.
+        public bool showFretLines = false;
 
         [Header("Fret Wire Settings")]
         [SerializeField] private float fretWireHeight = 0.008f;
@@ -86,7 +88,7 @@ namespace GuitarExerciseView.Fretboard
             DestroyChildrenOf(ref _inlaysRoot, "Inlays");
 
             BuildFretboardMesh();
-            BuildFretWires();
+            // BuildFretWires(); // Disabled — showFretLines = false (Option C). Re-enable here and below if fret wire geometry is ever needed.
             BuildInlays();
 
             if (fretboardMaterial != null)
@@ -109,6 +111,7 @@ namespace GuitarExerciseView.Fretboard
 
         private void BuildFretboardMesh()
         {
+            // Fretboard surface only — no fret wire geometry. See docs/sources.md for design decision.
             // We'll create a subdivided quad mesh along the fretboard length.
             // For each segment between fret positions we generate a quad.
             // Number of longitudinal segments = numFrets + 1 (from nut to last fret + body overhang)
@@ -197,63 +200,16 @@ namespace GuitarExerciseView.Fretboard
 
         private void BuildFretWires()
         {
-            for (int i = 0; i <= numFrets; i++)
-            {
-                float zPos = GetFretPosition(i);
-                float width = GetWidthAtPosition(zPos);
-                float halfWidth = width * 0.5f;
-
-                GameObject fretWireGO = new GameObject($"FretWire_{i:D2}");
-                fretWireGO.transform.SetParent(_fretWiresRoot.transform, false);
-
-                MeshFilter mf = fretWireGO.AddComponent<MeshFilter>();
-                MeshRenderer mr = fretWireGO.AddComponent<MeshRenderer>();
-
-                if (fretWireMaterial != null)
-                    mr.sharedMaterial = fretWireMaterial;
-                else
-                    mr.sharedMaterial = CreateDefaultFretWireMaterial();
-
-                // Fret wire is a thin quad: extends across width, has height fretWireHeight, depth fretWireWidth
-                // Center at zPos, lifted fretWireHeight/2 above board
-                Vector3[] verts = new Vector3[8];
-                // Bottom-left, bottom-right, top-right, top-left (front face)
-                float halfFW = fretWireWidth * 0.5f;
-                // Front face (toward camera)
-                verts[0] = new Vector3(-halfWidth, 0f, zPos - halfFW);
-                verts[1] = new Vector3(halfWidth, 0f, zPos - halfFW);
-                verts[2] = new Vector3(halfWidth, fretWireHeight, zPos - halfFW);
-                verts[3] = new Vector3(-halfWidth, fretWireHeight, zPos - halfFW);
-                // Back face
-                verts[4] = new Vector3(-halfWidth, 0f, zPos + halfFW);
-                verts[5] = new Vector3(halfWidth, 0f, zPos + halfFW);
-                verts[6] = new Vector3(halfWidth, fretWireHeight, zPos + halfFW);
-                verts[7] = new Vector3(-halfWidth, fretWireHeight, zPos + halfFW);
-
-                int[] tris = new int[]
-                {
-                    // Front
-                    0, 2, 1,  0, 3, 2,
-                    // Back
-                    4, 5, 6,  4, 6, 7,
-                    // Top
-                    3, 6, 2,  3, 7, 6,
-                    // Left
-                    0, 4, 7,  0, 7, 3,
-                    // Right
-                    1, 2, 6,  1, 6, 5,
-                    // Bottom
-                    0, 1, 5,  0, 5, 4
-                };
-
-                Mesh wireMesh = new Mesh();
-                wireMesh.name = $"FretWireMesh_{i}";
-                wireMesh.vertices = verts;
-                wireMesh.triangles = tris;
-                wireMesh.RecalculateNormals();
-                wireMesh.RecalculateBounds();
-                mf.sharedMesh = wireMesh;
-            }
+            // ── FRET WIRE GEOMETRY REMOVED (Option C) ────────────────────────────────
+            // Fret wire quads (thin raised cross-board meshes) are intentionally omitted.
+            // String lane GameObjects and note-pill renderers carry all positional info at
+            // runtime.  Held notes and bend visuals travel the full lane length without
+            // snapping to fret boundaries.  See docs/sources.md for the full design note.
+            //
+            // To restore: uncomment the loop body below and re-enable the BuildFretWires()
+            // call in RegenerateMesh().  fretWireHeight, fretWireWidth, and fretWireMaterial
+            // serialised fields are retained so existing scene references are not broken.
+            // ─────────────────────────────────────────────────────────────────────────
         }
 
         private Material CreateDefaultFretWireMaterial()

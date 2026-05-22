@@ -195,8 +195,7 @@ Each `*.asmdef` references only its required siblings to keep compile times fast
 │   ├── FretboardRoot             (FretboardMeshBuilder.cs, GuitarSkinApplicator.cs)
 │   │   ├── FretboardBody         (MeshFilter + MeshRenderer, M_Fretboard_*)
 │   │   ├── Strings               (6× StringMesh children)
-│   │   ├── FretWires             (generated cylinders)
-│   │   ├── Inlays                (quad mesh, inlay texture)
+│   │   ├── Inlays                (quad mesh, inlay texture — aesthetic only, no gameplay role)
 │   │   └── HitZonePlane          (HitZoneMarker.cs)
 │   └── NoteHighway               (NoteHighway.cs, NotePool.cs)
 │       └── [NotePool – 64 pooled NoteCapsule instances]
@@ -264,7 +263,10 @@ public static Mesh BuildFretboardMesh(int fretCount = 15)
 }
 ```
 
-**Fret wire cylinders:** Each fret wire is a `GameObject` with a `CylinderMeshFilter` (radius = 0.005 units, length = board width at that fret). Fret wires use `M_FretWire_Nickel` (metallic=0.9, smoothness=0.85).
+**Fret wire geometry — Option C (selected):** No fret wire geometry is rendered. The fretboard surface uses wood texture and inlay overlays for aesthetics only (see §2.2 UV Layout and §3). All gameplay information is carried by the string lanes and the note pills that scroll along them; each note pill displays the fret number directly in its `FretLabel` child (see §4.2). Fret lines baked into the albedo texture serve as a visual reference only and have no collider or gameplay significance.
+
+> **Design Decision — why not Option A (windowed fretboard)?**
+> Option A (windowed fretboard) was rejected because held notes and bends span multiple fret positions — a windowed approach would clip sustains mid-scroll. Option C keeps fret lines as texture only.
 
 ### 2.2 UV Layout
 
@@ -352,10 +354,7 @@ public class GuitarSkin : ScriptableObject
     public Texture2D          stringAlbedo;     // 64×64 tileable
     [Range(0.5f, 2.0f)] public float stringWidthMult = 1.0f;
 
-    [Header("Fret Wires")]
-    public Color fretWireColor  = new Color(0.85f, 0.85f, 0.82f, 1f);
-    [Range(0f, 1f)] public float fretWireMetallic   = 0.92f;
-    [Range(0f, 1f)] public float fretWireSmoothness = 0.80f;
+    // Fret wire fields removed — Option C: no fret wire geometry; fret lines are texture-only.
 
     [Header("Note Capsule Tint (per-string)")]
     public Color[] stringNoteColors = new Color[6]
@@ -383,7 +382,6 @@ public class GuitarSkinApplicator : MonoBehaviour
 {
     [SerializeField] MeshRenderer fretboardRenderer;   // sub-mesh 0=top, 1=sides
     [SerializeField] MeshRenderer[] stringRenderers;   // [6] string ribbon renderers
-    [SerializeField] MeshRenderer[] fretWireRenderers; // [15] fret wire renderers
     [SerializeField] MeshRenderer inlayRenderer;       // alpha-blended quad on top
 
     // MaterialPropertyBlock reuse (avoids material instance allocation)
@@ -415,15 +413,6 @@ public class GuitarSkinApplicator : MonoBehaviour
             stringRenderers[i].SetPropertyBlock(_mpb);
         }
 
-        // --- Fret Wires ---
-        foreach (var wr in fretWireRenderers)
-        {
-            _mpb.Clear();
-            _mpb.SetColor("_BaseColor",  skin.fretWireColor);
-            _mpb.SetFloat("_Metallic",   skin.fretWireMetallic);
-            _mpb.SetFloat("_Smoothness", skin.fretWireSmoothness);
-            wr.SetPropertyBlock(_mpb);
-        }
     }
 }
 ```
@@ -465,6 +454,8 @@ NoteCapsule (root)
 ├── FretLabel        (TextMeshPro 3D, font size 18pt, Z offset +0.036)
 └── GlowHalo         (SpriteRenderer, T_NoteCapsule_Gradient, additive blend, scale=1.2)
 ```
+
+**Note pill shape and fret number:** Every note is rendered as a pill (capsule). The `FretLabel` child displays the fret number so the player always knows what to fret — this is the sole carrier of fret-position information (no fret wire geometry exists; see §2.1). Normal (short) notes use the default capsule scale. **Held notes and bend notes are elongated pills:** their Z scale is set to `durationSeconds * SCROLL_SPEED` so the pill stretches to represent the full sustain duration visually. These elongated pills travel the complete length of the string lane scrolling at the same speed as all other notes — **there is no fret-position snapping** at any point during the scroll; the pill's X position is fixed to the string lane and its Z position is purely time-driven.
 
 **Note colors** are looked up from `ActiveSkin.stringNoteColors[note.stringIndex]` and injected via `MaterialPropertyBlock` on `CapsuleMesh`:
 

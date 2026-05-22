@@ -46,6 +46,7 @@
 | Static Red Rocks parallax background first, 3D environment later | Scope control; parallax gives depth without full 3D scene cost | 2025-05-21 |
 | CNN model (in training) + MIDI interface for input pipeline | User is training CNN for real-time note detection; MIDI for latency-critical pro use | 2025-05-21 |
 | Random tab generator for prototype (no Guitar Pro import yet) | Scope control; GP import added after core highway is proven | 2025-05-21 |
+| No fret wire geometry rendered (Option C) — fretboard surface texture and inlays only | Option A windowed fretboard rejected: held notes and bends span multiple fret positions, windowed scroll would clip sustains mid-travel. String lanes + note pills carry all gameplay info. | 2025-05-21 |
 
 ---
 
