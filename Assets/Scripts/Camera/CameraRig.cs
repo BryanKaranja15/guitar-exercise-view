@@ -5,7 +5,7 @@ namespace GuitarExerciseView.Camera
     /// <summary>
     /// Positions and configures the main camera for the guitar exercise view.
     /// Default position: (0, 1.8, 2.4) looking down at the fretboard at -22° pitch.
-    /// FOV: 55° — wide enough to see full fretboard width at comfortable distance.
+    /// FOV: 52° — calibrated: gives 46.6px string spacing on 1080p (vs 43.8px at 55°). See docs/camera-calibration.md.
     /// </summary>
     public class CameraRig : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace GuitarExerciseView.Camera
         [SerializeField] private Vector3 cameraRotationEuler = new Vector3(-22f, 0f, 0f);
 
         [Header("Camera Settings")]
-        [SerializeField] private float fieldOfView = 55f;
+        [SerializeField] private float fieldOfView = 52f;
         [SerializeField] private float nearClipPlane = 0.1f;
         [SerializeField] private float farClipPlane = 100f;
 
