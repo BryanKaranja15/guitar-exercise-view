@@ -1,0 +1,99 @@
+# Unity .gitignore
+# Generated for Unity 2022.3 LTS — GuitarExerciseView
+
+# ── Unity auto-generated folders ──────────────────────────────────────────────
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# ── Visual Studio / Rider ──────────────────────────────────────────────────────
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userosscache
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# ── JetBrains ─────────────────────────────────────────────────────────────────
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/.name
+.idea/**/encodings.xml
+.idea/**/marked2.xml
+
+# ── macOS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ── Windows ────────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# ── Xcode (iOS builds) ────────────────────────────────────────────────────────
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# ── Android Builds ────────────────────────────────────────────────────────────
+*.apk
+*.aab
+*.unitypackage
+
+# ── Crash/Log reports ────────────────────────────────────────────────────────
+sysinfo.txt
+crashlytics-build.properties
+
+# ─── KEEP (explicitly not ignored) ──────────────────────────────────────────
+# These lines exist as documentation — git does not ignore them:
+# ProjectSettings/
+# Packages/
+# Assets/
