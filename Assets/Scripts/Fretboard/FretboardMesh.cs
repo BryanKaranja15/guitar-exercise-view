@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GuitarExerciseView.Fretboard
 {
+    [ExecuteInEditMode] // ← renders live in Scene view without pressing Play
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class FretboardMesh : MonoBehaviour
     {

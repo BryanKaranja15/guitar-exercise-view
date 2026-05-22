@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace GuitarExerciseView.Camera
 {
+    [ExecuteInEditMode] // ← camera updates live in Scene view without pressing Play
     /// <summary>
     /// Positions and configures the main camera for the guitar exercise view.
     /// Default position: (0, 1.8, 2.4) looking down at the fretboard at -22° pitch.

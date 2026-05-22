@@ -94,8 +94,8 @@ namespace GuitarExerciseView.Editor
             // ── 7. Background Quad ───────────────────────────────────────────────
             GameObject backgroundGO = GameObject.CreatePrimitive(PrimitiveType.Quad);
             backgroundGO.name = "Background";
-            backgroundGO.transform.position = new Vector3(0f, 0f, 8f);
-            backgroundGO.transform.rotation = Quaternion.Euler(90f, 0f, 0f); // flat facing camera
+            backgroundGO.transform.position = new Vector3(0f, 0f, 14f);
+            backgroundGO.transform.rotation = Quaternion.identity; // face camera (Z=0,0,0)
             backgroundGO.transform.localScale = new Vector3(24f, 14f, 1f);
 
             // Assign a dark material to the background
@@ -182,16 +182,16 @@ namespace GuitarExerciseView.Editor
 
         private static Material CreateBackgroundMaterial()
         {
-            // Try URP Unlit first
+            // Use Universal Render Pipeline/Unlit — always available in URP projects
             Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (shader == null || shader.name == "Hidden/InternalErrorShader")
+            if (shader == null)
                 shader = Shader.Find("Unlit/Color");
             if (shader == null)
-                shader = Shader.Find("Standard");
+                shader = Shader.Find("Standard"); // absolute fallback
 
             Material mat = new Material(shader);
-            // Dark charcoal background: #1A1A2E
-            mat.color = new Color(0.102f, 0.102f, 0.180f, 1f);
+            // Dark near-black background: #0C0C0E
+            mat.color = new Color(0.047f, 0.047f, 0.055f, 1f);
             mat.name = "BackgroundMaterial";
 
             // Save the material as an asset so the scene can reference it
