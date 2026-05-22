@@ -47,6 +47,7 @@
 | CNN model (in training) + MIDI interface for input pipeline | User is training CNN for real-time note detection; MIDI for latency-critical pro use | 2025-05-21 |
 | Random tab generator for prototype (no Guitar Pro import yet) | Scope control; GP import added after core highway is proven | 2025-05-21 |
 | No fret wire geometry rendered (Option C) — fretboard surface texture and inlays only | Option A windowed fretboard rejected: held notes and bends span multiple fret positions, windowed scroll would clip sustains mid-travel. String lanes + note pills carry all gameplay info. | 2025-05-21 |
+| Issue #3 — Note pill orientation: **Approach B chosen** — World-space Canvas coplanar with fretboard (rotated Euler -90° X), 1 world unit = 100 canvas pixels, notes travel in canvas-Y (= world Z). Rejected Approach A (billboard LookAt): pills float off fretboard surface, per-frame LookAt cost on mobile, perspective skew at screen edges. Rejected Approach C (screen-space canvas): requires continuous world-to-screen projection math; breaks on any camera change; loses physical depth feel. Approach B keeps pills physically grounded on strings, text reads naturally from the -22° camera POV because camera and canvas share the same tilt plane, zero per-frame overhead. Implemented in `Assets/Scripts/Notes/NoteVisual.cs`. | Architecture analysis + implementation | 2026-05-22 |
 
 ---
 

@@ -11,12 +11,12 @@ This document walks you through verifying Milestone 1: a procedurally generated 
 | Requirement | Version / Notes |
 |---|---|
 | **Unity Hub** | 3.x or later |
-| **Unity Editor** | **2022.3.20f1** (exact version recommended) |
+| **Unity Editor** | **2022.3.62f3** (released Oct 28 2025 — verified safe) |
 | **iOS Build Support** | Module installed via Unity Hub → Installs → Add modules |
 | **macOS** (for iOS build) | Required only to build/deploy to device |
 | **Git** | For cloning the repo |
 
-> ⚠️ Using a different Unity version may cause import warnings. The project targets 2022.3.20f1.
+> ⚠️ Using a different Unity version may cause import warnings. The project targets **2022.3.62f3** (released Oct 28 2025, verified no known CVEs).
 
 ---
 
@@ -35,7 +35,7 @@ cd guitar-exercise-view
 2. Click **Open → Add project from disk**.
 3. Navigate to the cloned `guitar-exercise-view/` folder (the one containing `Assets/` and `ProjectSettings/`).
 4. Select the folder and click **Open**.
-5. Confirm the editor version is **2022.3.20f1** in the version selector.
+5. Confirm the editor version is **2022.3.62f3** in the version selector.
 
 ---
 
